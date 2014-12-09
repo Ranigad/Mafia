@@ -7,20 +7,26 @@
 #include <iostream>
 using namespace std;
 
+void printRoles(const bool[]);
+int victoryConditions(const bool[]);
+void mark(char, bool[]);
+
 int main()
 {
 	bool deadRoles[15] = { 0 };
 	
 	while (!victoryConditions(deadRoles))
 	{
-		_getch();
-		printRoles(deadRoles[15]);
+		printRoles(deadRoles);
+		mark(_getch(), deadRoles);
 	}
 	
-	switch(met){
-		case 1: cout << "Town wins!" << endl;
-		case 2: cout << "Mafia wins!" << endl;
-		case 3: cout << "SK wins!" << endl;
+	printRoles(deadRoles);
+
+	switch(victoryConditions(deadRoles)) {
+	case 1: cout << "Town wins!" << endl; break;
+	case 2: cout << "Mafia wins!" << endl; break;
+	case 3: cout << "SK wins!" << endl; break;
 		}
 		
 	_getch();	
@@ -28,7 +34,7 @@ int main()
 	return 0;
 }
 
-victoryConditions(bool deadRoles[15])
+int victoryConditions(const bool deadRoles[15])
 {
 	int met;
 
@@ -54,28 +60,59 @@ victoryConditions(bool deadRoles[15])
 	return met;
 }
 
-void printRoles(bool deadRoles[15])
+void printRoles(const bool deadRoles[15])
 {
-	cout << "** Town **" << endl;
-	if (deadRoles[0]) cout << "1. Investigator" << endl;
-	if (deadRoles[1]) cout << "2. Sheriff" << endl;
-	if (deadRoles[2]) cout << "3. Escort" << endl;
-	if (deadRoles[3]) cout << "4. Doctor" << endl;
-	if (deadRoles[4]) cout << "5. Jailor" << endl;
-	if (deadRoles[5]) cout << "6. Medium" << endl;
-	if (deadRoles[6]) cout << "7. Lookout" << endl;
-	if (deadRoles[7]) cout << "8. Town Killing" << endl;
-	if (deadRoles[8]) cout << "9. Random Town" << endl;
+	int alive = 0;
+	for (int i = 0; i < 15; i++)
+		if (!deadRoles[i])
+			alive++;
 
-	cout << "** Mafia **" << endl;
-	if (deadRoles[9]) cout << "a. Godfather" << endl;
-	if (deadRoles[10]) cout << "b. Mafioso" << endl;
-	if (deadRoles[11]) cout << "c. Framer" << endl;
+	cout << "** Town **" << endl << endl;
+	if (!deadRoles[0]) cout << "1. Investigator" << endl;
+	if (!deadRoles[1]) cout << "2. Sheriff" << endl;
+	if (!deadRoles[2]) cout << "3. Escort" << endl;
+	if (!deadRoles[3]) cout << "4. Doctor" << endl;
+	if (!deadRoles[4]) cout << "5. Jailor" << endl;
+	if (!deadRoles[5]) cout << "6. Medium" << endl;
+	if (!deadRoles[6]) cout << "7. Lookout" << endl;
+	if (!deadRoles[7]) cout << "8. Town Killing" << endl;
+	if (!deadRoles[8]) cout << "9. Random Town" << endl;
+
+	cout << endl << "** Mafia **" << endl << endl;
+	if (!deadRoles[9]) cout << "a. Godfather" << endl;
+	if (!deadRoles[10]) cout << "b. Mafioso" << endl;
+	if (!deadRoles[11]) cout << "c. Framer" << endl;
 	
-	cout << "** Neutral **" << endl;
-	if (deadRoles[12]) cout << "d. Serial Killer" << endl;
-	if (deadRoles[13]) cout << "e. Jester" << endl;
-	if (deadRoles[14]) cout << "f. Executioner" << endl;
+	cout << endl << "** Neutral **" << endl << endl;
+	if (!deadRoles[12]) cout << "d. Serial Killer" << endl;
+	if (!deadRoles[13]) cout << "e. Jester" << endl;
+	if (!deadRoles[14]) cout << "f. Executioner" << endl;
 	
-	cout << endl << "*********************************************" 	<< endl;
+	cout << "========== " << alive << " Left Alive ==========" << endl;
+
+	for (int i = 0; i < 15 - alive; i++)
+		cout << endl;
+}
+
+void mark(char died, bool deadRoles[15])
+{
+	switch (died){
+	case '1': deadRoles[died - 1 - '0'] = !deadRoles[died - 1 - '0']; break;
+	case '2': deadRoles[died - 1 - '0'] = !deadRoles[died - 1 - '0']; break;
+	case '3': deadRoles[died - 1 - '0'] = !deadRoles[died - 1 - '0']; break;
+	case '4': deadRoles[died - 1 - '0'] = !deadRoles[died - 1 - '0']; break;
+	case '5': deadRoles[died - 1 - '0'] = !deadRoles[died - 1 - '0']; break;
+	case '6': deadRoles[died - 1 - '0'] = !deadRoles[died - 1 - '0']; break;
+	case '7': deadRoles[died - 1 - '0'] = !deadRoles[died - 1 - '0']; break;
+	case '8': deadRoles[died - 1 - '0'] = !deadRoles[died - 1 - '0']; break;
+	case '9': deadRoles[died - 1 - '0'] = !deadRoles[died - 1 - '0']; break;
+	case 'a': deadRoles[died - 'a' + 9] = !deadRoles[died - 'a' + 9]; break;
+	case 'b': deadRoles[died - 'a' + 9] = !deadRoles[died - 'a' + 9]; break;
+	case 'c': deadRoles[died - 'a' + 9] = !deadRoles[died - 'a' + 9]; break;
+	case 'd': deadRoles[died - 'a' + 9] = !deadRoles[died - 'a' + 9]; break;
+	case 'e': deadRoles[died - 'a' + 9] = !deadRoles[died - 'a' + 9]; break;
+	case 'f': deadRoles[died - 'a' + 9] = !deadRoles[died - 'a' + 9]; break;
+	}
+
+
 }
